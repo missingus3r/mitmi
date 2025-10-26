@@ -1,0 +1,105 @@
+<%- include('../partials/header') %>
+
+<div class="chat-page">
+  <div class="container">
+    <div class="chat-container">
+
+      <div class="chat-header">
+        <% if (match.status === 'matched' && match.photoMatch.bothLiked) { %>
+          <img src="<%= otherUser.photo %>" alt="Foto" class="chat-avatar">
+          <h2><%= otherUser.name %></h2>
+        <% } else { %>
+          <div class="chat-avatar-placeholder">?</div>
+          <h2>Perfil Anónimo</h2>
+        <% } %>
+
+        <div class="match-info-badge">
+          <%= match.compatibilityScore %>% compatible
+        </div>
+      </div>
+
+      <% if (match.status === 'chatting') { %>
+        <div class="chat-actions">
+          <button id="requestPhotoReveal" class="btn btn-secondary">
+            ¿Quieres ver las fotos?
+          </button>
+          <p class="action-hint">Cuando ambos acepten, podrán ver sus fotos y decidir si continuar</p>
+        </div>
+      <% } %>
+
+      <% if (match.status === 'photo_reveal_pending') { %>
+        <div class="chat-notification">
+          <p>Esperando que ambos acepten revelar las fotos...</p>
+        </div>
+      <% } %>
+
+      <% if (match.status === 'photo_matching') { %>
+        <div class="photo-reveal">
+          <h3>¡Revelación de fotos!</h3>
+          <div class="revealed-photo">
+            <img src="<%= otherUser.photo %>" alt="Foto revelada">
+          </div>
+          <p>¿Te gustaría continuar con esta persona?</p>
+          <div class="photo-match-actions">
+            <button id="likePhoto" class="btn btn-primary">Sí, me gusta</button>
+            <button id="dislikePhoto" class="btn btn-secondary">No es para mí</button>
+          </div>
+        </div>
+      <% } %>
+
+      <% if (match.status === 'matched') { %>
+        <div class="chat-notification success">
+          <p>¡Match completo! Ambos se gustaron. Continúen la conversación 💚</p>
+        </div>
+      <% } %>
+
+      <% if (match.status === 'rejected') { %>
+        <div class="chat-notification error">
+          <p>Esta conversación ha terminado. No hubo match en la etapa de fotos.</p>
+        </div>
+      <% } %>
+
+      <div class="messages-container" id="messagesContainer">
+        <% messages.forEach(message => { %>
+          <div class="message <%= message.senderId._id.toString() === user._id.toString() ? 'message-sent' : 'message-received' %>">
+            <div class="message-content">
+              <%= message.content %>
+            </div>
+            <div class="message-time">
+              <%= new Date(message.createdAt).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) %>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+
+      <% if (match.status === 'chatting' || match.status === 'matched') { %>
+        <div class="message-input-container">
+          <div id="typingIndicator" class="typing-indicator" style="display: none;">
+            <span>está escribiendo...</span>
+          </div>
+          <form id="messageForm" class="message-form">
+            <input
+              type="text"
+              id="messageInput"
+              placeholder="Escribe un mensaje..."
+              autocomplete="off"
+              required
+            >
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </form>
+        </div>
+      <% } %>
+
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const matchId = '<%= match._id %>';
+  const userId = '<%= user._id %>';
+  const matchStatus = '<%= match.status %>';
+</script>
+<script src="/js/chat.js"></script>
+
+<%- include('../partials/footer') %>

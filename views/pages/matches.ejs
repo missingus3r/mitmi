@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<div class="matches-page">
+  <div class="container">
+    <h1>Descubre Conexiones</h1>
+    <p class="subtitle">Personas compatibles con tus intereses</p>
+
+    <% if (matches.length === 0) { %>
+      <div class="empty-state">
+        <h2>No hay matches disponibles en este momento</h2>
+        <p>Vuelve más tarde para ver nuevos perfiles compatibles</p>
+      </div>
+    <% } else { %>
+      <div class="matches-grid">
+        <% matches.forEach(match => { %>
+          <div class="match-card" data-user-id="<%= match.user._id %>">
+            <div class="match-info">
+              <div class="compatibility-badge">
+                <%= match.compatibility %>% compatible
+              </div>
+
+              <h3>Perfil Anónimo</h3>
+
+              <div class="match-details">
+                <p><strong>Edad:</strong> <%= match.user.profile.age %> años</p>
+                <p><strong>Altura:</strong> <%= match.user.profile.height %> cm</p>
+                <% if (match.user.profile.bio) { %>
+                  <p class="bio"><%= match.user.profile.bio %></p>
+                <% } %>
+              </div>
+
+              <div class="shared-interests">
+                <h4>Intereses compartidos:</h4>
+                <ul>
+                  <%
+                  let sharedCount = 0;
+                  match.user.answers.forEach(answer => {
+                    const userAnswer = user.answers.find(a => a.questionId === answer.questionId);
+                    if (userAnswer && userAnswer.answer === answer.answer && sharedCount < 5) {
+                      sharedCount++;
+                  %>
+                    <li><%= answer.answer %></li>
+                  <%
+                    }
+                  });
+                  %>
+                </ul>
+              </div>
+
+              <button class="btn btn-primary create-match" data-user-id="<%= match.user._id %>">
+                Hacer Match
+              </button>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<script src="/js/matches.js"></script>
+
+<%- include('../partials/footer') %>

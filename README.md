@@ -38,3 +38,106 @@ Una inteligencia artificial (IA) que sugiere los primeros pasos en la conversaci
 
 
 Mitmi no solo se centra en encontrar parejas, sino también en construir comunidades y amistades duraderas. Con un enfoque en la autenticidad y el conocimiento mutuo, Mitmi ofrece una plataforma única que destaca en el saturado mercado de aplicaciones de citas. Únete a nosotros y descubre conexiones más profundas y significativas.
+
+## Stack Tecnológico
+
+- **Backend**: Node.js + Express
+- **Motor de Vistas**: EJS
+- **Base de Datos**: MongoDB (Mongoose)
+- **Autenticación**: Auth0
+- **Chat en Tiempo Real**: Socket.IO
+- **Subida de Archivos**: Multer
+
+## Instalación y Configuración
+
+### 1. Instalar dependencias
+```bash
+npm install
+```
+
+### 2. Configurar Auth0
+1. Crea una cuenta en [Auth0](https://auth0.com/)
+2. Crea una nueva aplicación (Regular Web Application)
+3. Configura las siguientes URLs en Auth0:
+   - **Allowed Callback URLs**: `http://localhost:3000/callback`
+   - **Allowed Logout URLs**: `http://localhost:3000`
+   - **Allowed Web Origins**: `http://localhost:3000`
+
+### 3. Configurar variables de entorno
+Actualiza el archivo `.env` con tus credenciales de Auth0:
+```env
+AUTH0_SECRET=tu-secret-generado-aqui
+AUTH0_CLIENT_ID=tu-client-id-de-auth0
+AUTH0_ISSUER_BASE_URL=https://tu-tenant.auth0.com
+```
+
+### 4. Inicializar las preguntas en la base de datos
+```bash
+node utils/seedQuestions.js
+```
+
+### 5. Iniciar el servidor
+```bash
+# Modo desarrollo (con auto-reload)
+npm run dev
+
+# Modo producción
+npm start
+```
+
+La aplicación estará disponible en `http://localhost:3000`
+
+## Flujo de la Aplicación
+
+1. **Landing Page** - Explicación de cómo funciona en 3 pasos
+2. **Login con Auth0** - Autenticación segura
+3. **Configurar Perfil** - Responder 15 preguntas sobre intereses y preferencias
+4. **Descubrir Matches** - Ver perfiles compatibles (sin fotos)
+5. **Chatear** - Conocerse a través de conversaciones
+6. **Revelar Fotos** - Ambos usuarios deben aceptar (el chat se pausa)
+7. **Match por Fotos** - Decidir si hay química visual
+8. **Match Completo** - Si ambos se gustan, el chat se reactiva
+
+## Estructura del Proyecto
+
+```
+mitmi/
+├── config/          # Configuración de BD y Auth0
+├── models/          # Modelos de Mongoose (User, Match, Message, Question)
+├── routes/          # Rutas de Express
+├── controllers/     # Lógica de negocio
+├── middleware/      # Middleware de autenticación
+├── utils/           # Utilidades (algoritmo de matching, seed)
+├── views/           # Plantillas EJS
+│   ├── pages/       # Páginas completas
+│   └── partials/    # Componentes reutilizables
+├── public/          # Archivos estáticos
+│   ├── css/         # Estilos
+│   ├── js/          # JavaScript del cliente
+│   └── images/      # Imágenes y uploads
+└── server.js        # Punto de entrada de la aplicación
+```
+
+## Características Implementadas
+
+✅ Landing page minimalista con explicación en 3 pasos
+✅ Autenticación con Auth0
+✅ Formulario de 15 preguntas variadas
+✅ Algoritmo de matching por compatibilidad de intereses
+✅ Chat en tiempo real con Socket.IO
+✅ Sistema de revelación de fotos (requiere aceptación mutua)
+✅ Segundo matching por fotos (el chat se pausa)
+✅ Lógica completa: si ambos se gustan por fotos, el chat continúa; si no, se termina
+✅ Preferencias de género, edad y altura
+✅ Interfaz responsive y minimalista
+
+## Características Pendientes
+
+- Wingman AI (sugerencias de conversación)
+- Matches grupales para amistades (hasta 3 personas)
+- Botón de donaciones
+- Notificaciones por email/push
+
+## Documentación
+
+Para más información sobre la arquitectura y desarrollo, consulta el archivo `CLAUDE.md`

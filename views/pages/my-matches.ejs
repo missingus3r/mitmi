@@ -1,0 +1,66 @@
+<%- include('../partials/header') %>
+
+<div class="my-matches-page">
+  <div class="container">
+    <h1>Mis Conversaciones</h1>
+
+    <% if (matches.length === 0) { %>
+      <div class="empty-state">
+        <h2>Aún no tienes conversaciones</h2>
+        <p><a href="/matches">Descubre personas compatibles</a> para empezar a chatear</p>
+      </div>
+    <% } else { %>
+      <div class="matches-list">
+        <% matches.forEach(match => { %>
+          <%
+            const otherUser = match.users.find(u => u._id.toString() !== user._id.toString());
+            let statusText = '';
+            let statusClass = '';
+
+            if (match.status === 'chatting') {
+              statusText = 'Chateando';
+              statusClass = 'status-chatting';
+            } else if (match.status === 'photo_reveal_pending') {
+              statusText = 'Esperando revelación de fotos';
+              statusClass = 'status-pending';
+            } else if (match.status === 'photo_matching') {
+              statusText = 'Esperando match por fotos';
+              statusClass = 'status-matching';
+            } else if (match.status === 'matched') {
+              statusText = 'Match completo!';
+              statusClass = 'status-matched';
+            }
+          %>
+
+          <div class="match-item">
+            <a href="/chat/<%= match._id %>" class="match-link">
+              <div class="match-header">
+                <% if (match.status === 'matched' && match.photoMatch.bothLiked) { %>
+                  <div class="match-photo">
+                    <img src="<%= otherUser.photo %>" alt="Foto de perfil">
+                  </div>
+                  <h3><%= otherUser.name %></h3>
+                <% } else { %>
+                  <div class="match-photo-hidden">
+                    <div class="avatar-placeholder">?</div>
+                  </div>
+                  <h3>Perfil Anónimo</h3>
+                <% } %>
+              </div>
+
+              <div class="match-status <%= statusClass %>">
+                <%= statusText %>
+              </div>
+
+              <div class="match-compatibility">
+                <%= match.compatibilityScore %>% compatible
+              </div>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

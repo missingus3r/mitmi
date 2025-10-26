@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitmi - Conexiones Auténticas</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="logo">Mitmi</a>
+      <div class="nav-links">
+        <% if (isAuthenticated) { %>
+          <a href="/matches">Matches</a>
+          <a href="/matches/my-matches">Mis Chats</a>
+          <a href="/logout">Cerrar Sesión</a>
+        <% } else { %>
+          <a href="/login">Iniciar Sesión</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>

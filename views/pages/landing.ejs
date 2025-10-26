@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+
+<div class="landing">
+  <section class="hero">
+    <div class="container">
+      <h1>Mitmi</h1>
+      <p class="tagline">Conoce primero los intereses, después las apariencias</p>
+      <% if (!isAuthenticated) { %>
+        <a href="/login" class="btn btn-primary">Comenzar</a>
+      <% } else { %>
+        <a href="/dashboard" class="btn btn-primary">Ir a Dashboard</a>
+      <% } %>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="container">
+      <h2>¿Cómo funciona?</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Completa tu perfil</h3>
+          <p>Responde preguntas sobre tus intereses, valores y preferencias. Sin fotos al principio.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Conecta por intereses</h3>
+          <p>Te mostramos perfiles compatibles basados en tus respuestas. Chatea y conoce a la persona.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Revela las fotos</h3>
+          <p>Cuando ambos sientan conexión, pueden revelar sus fotos. Si hay química visual, ¡match completo!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>¿Por qué Mitmi?</h2>
+
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>Intereses primero</h3>
+          <p>Conoce a las personas por quiénes son, no solo por cómo se ven</p>
+        </div>
+
+        <div class="feature">
+          <h3>Conexiones reales</h3>
+          <p>Matching inteligente basado en compatibilidad de valores e intereses</p>
+        </div>
+
+        <div class="feature">
+          <h3>Proceso gradual</h3>
+          <p>Primero charlas, luego revelan fotos, finalmente deciden si continuar</p>
+        </div>
+
+        <div class="feature">
+          <h3>100% Gratis</h3>
+          <p>Todas las funciones disponibles sin costo. Dona si quieres apoyar el proyecto</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Empieza tu viaje hacia conexiones auténticas</h2>
+      <% if (!isAuthenticated) { %>
+        <a href="/login" class="btn btn-primary btn-large">Únete a Mitmi</a>
+      <% } else { %>
+        <a href="/dashboard" class="btn btn-primary btn-large">Ir a Dashboard</a>
+      <% } %>
+    </div>
+  </section>
+</div>
+
+<%- include('../partials/footer') %>
